@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0b655d3b-e85b-40bd-82dc-a5be27722cc9" name="Changes" comment="End of Class 1">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Bird.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Dead Bird.png" afterDir="false" />
+    <list default="true" id="0b655d3b-e85b-40bd-82dc-a5be27722cc9" name="Changes" comment="End of Week 1">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Flappy Bird Floor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Flipped Pipe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Pipe.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/images/Bird.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/images/Flappy Bird Sprites.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Bird.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Bird.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Display.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Pipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pipe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +73,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683740331838</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="End of Week 1">
+      <created>1683960473300</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683960473300</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -90,6 +96,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="End of Class 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="End of Class 1" />
+    <MESSAGE value="End of Week 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="End of Week 1" />
   </component>
 </project>

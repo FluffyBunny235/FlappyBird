@@ -2,13 +2,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 public class Display implements ActionListener {
     Screen screen;
@@ -56,20 +51,29 @@ public class Display implements ActionListener {
                 throw new RuntimeException(ex);
             }
             playAgain.setSelected(false);
+            screen.requestFocus();
         }
         if (e.getActionCommand().equals("Settings")){
             System.out.println("Settings");
             settings.setSelected(false);
+            screen.requestFocus();
         }
     }
 
-    class Screen extends JPanel implements MouseListener, KeyListener {
-        private final int WIDTH = 432;
-        private final int HEIGHT = 768;
+    static class Screen extends JPanel implements MouseListener, KeyListener {
         private Image background;
+        private Image floor;
+        private final int speed;
+        int floorOffset;
         public Screen() throws IOException {
             background = ImageIO.read(new File("src/main/java/Background.png"));
-            background = background.getScaledInstance(WIDTH+2, HEIGHT+4, 0);
+            int WIDTH = 432;
+            int HEIGHT = 768;
+            background = background.getScaledInstance(WIDTH +2, HEIGHT +4, 0);
+            floor = ImageIO.read(new File("src/main/java/Flappy Bird Floor.png"));
+            floor = floor.getScaledInstance(floor.getWidth(this)*5, floor.getHeight(this)*5, 0);
+            floorOffset = 0;
+            speed = 3;
             this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
             this.addMouseListener(this);
             this.addKeyListener(this);
@@ -80,9 +84,23 @@ public class Display implements ActionListener {
         }
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            //draw background
             g.drawImage(background,-2,-4,this);
-            //rotate image
+            //draw bird
             g.drawImage(Main.b.getSprite(),108-32, Main.b.getY(), this);
+            //draw pipes
+            for (int i = 0; i < 3; i++) {
+                Pipe p = Main.pipes[i];
+                g.drawImage(p.getSprite(), p.getDisplayX(), p.getTopOfLowerPipe(), this);
+                g.drawImage(p.getTopSprite(), p.getDisplayX(), p.getTopOfUpperPipe(), this);
+            }
+            //draw floor
+            g.drawImage(floor, -floorOffset, 768-174, this);
+            floorOffset += speed;
+            if (93-floorOffset < 0) {
+                floorOffset = 27;
+                //this resets the floor so to give it the infinite feel without choppiness
+            }
         }
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -111,14 +129,13 @@ public class Display implements ActionListener {
 
         @Override
         public void keyTyped(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_UP ) {
-                Main.b.jump();
-            }
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
+            if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                Main.b.jump();
+            }
         }
 
         @Override

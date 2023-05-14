@@ -8,17 +8,15 @@ public class Bird {
     private Image deadSprite = ImageIO.read(new File("src/main/java/Dead Bird.png"));
     private Image sprite = ImageIO.read(new File("src/main/java/Bird.png"));
     private boolean alive;
-    private double terminalVelocity = 15;
+    private double terminalVelocity = 20;
     private double velocity;
-    private double acceleration = 0.4;
-    private int direction;
+    private double acceleration = 0.75;
     public Bird() throws IOException {
         this.sprite = sprite.getScaledInstance(64, 48, 0);
         this.deadSprite = deadSprite.getScaledInstance(64, 48, 0);
         this.alive = true;
         this.y = 400;
         this.velocity = 0;
-        this.direction = 0;
     }
     public void act() {
         if (!Main.running) {return;}
@@ -26,22 +24,18 @@ public class Bird {
         if (velocity > terminalVelocity) {
             velocity = terminalVelocity;
         }
-        if (alive){direction = (int)(120*Math.atan(velocity)/3.14);}
         // this sets the angle of the bird relative to the velocity
         y += velocity;
-        if (y >= 696) {
-            y = 696;
+        if (y >= 706-160) {
+            y = 706-160;
             die();
         }
         // moves the bird velocity distance.
         Main.d.screen.repaint();
     }
-    public int getDirection() {
-        return this.direction;
-    }
     public void jump() {
         if (!alive) {return;}
-        velocity = -terminalVelocity/1.5;
+        velocity = -terminalVelocity/2;
         Main.running = true;
     }
     public int getY() {
@@ -50,7 +44,6 @@ public class Bird {
     public void die() {
         Main.running = false;
         this.alive = false;
-        this.direction = -90;
         this.velocity = terminalVelocity;
     }
     public void setTerminalVelocity(int tv) {
