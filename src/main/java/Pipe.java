@@ -30,9 +30,8 @@ public class Pipe {
                 countedScore = true;
                 if (Main.currentScore > Main.highScore) {
                     Main.highScore = Main.currentScore;
-                    Main.d.highScore.setText("High Score: " + Main.highScore);
+                    Main.d.highScore.setText("Session High Score: " + Main.highScore);
                 }
-                System.out.print("\b\b\b" + Main.currentScore);
             }
         }
     }

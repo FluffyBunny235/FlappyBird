@@ -12,6 +12,7 @@ public class Display implements ActionListener {
     JButton playAgain;
     JButton settings;
     JLabel highScore;
+
     public Display() throws IOException {
         frame = new JFrame("Flappy Bird");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,7 +30,7 @@ public class Display implements ActionListener {
         settings.setSelected(false);
         panel.add(settings);
 
-        highScore = new JLabel("High Score: " + Main.highScore);
+        highScore = new JLabel("Session High Score: " + Main.highScore);
         panel.add(highScore);
 
         screen = new Screen();
@@ -66,8 +67,15 @@ public class Display implements ActionListener {
         private Image background;
         private Image floor;
         private final int speed;
+        private Image[] scores;
         int floorOffset;
         public Screen() throws IOException {
+            scores = new Image[10];
+            for (int i = 0; i < 10; i++) {
+                Image a = ImageIO.read(new File("src/main/java/Score" + i + ".png"));
+                a = a.getScaledInstance(64, 64, 0);
+                scores[i] = a;
+            }
             background = ImageIO.read(new File("src/main/java/Background.png"));
             int WIDTH = 432;
             int HEIGHT = 768;
@@ -102,6 +110,17 @@ public class Display implements ActionListener {
             if (93-floorOffset < 0) {
                 floorOffset = 27;
                 //this resets the floor so to give it the infinite feel without choppiness
+            }
+            //draw score
+            int sc = Main.currentScore;
+            int x = 368;
+            while (sc != -1) {
+                g.drawImage(scores[sc%10], x, 4, this);
+                sc = sc/10;
+                x-=60;
+                if (sc == 0) {
+                    sc = -1;
+                }
             }
         }
         @Override

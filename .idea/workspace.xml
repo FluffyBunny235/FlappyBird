@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0b655d3b-e85b-40bd-82dc-a5be27722cc9" name="Changes" comment="Added moving pipes and a moving floor">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Settings.java" afterDir="false" />
+    <list default="true" id="0b655d3b-e85b-40bd-82dc-a5be27722cc9" name="Changes" comment="Done with gameplay">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Score9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Bird.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Bird.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Display.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Pipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pipe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +92,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684052460329</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Done with gameplay">
+      <created>1684182841600</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684182841600</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -103,6 +117,7 @@
     <MESSAGE value="End of Class 1" />
     <MESSAGE value="End of Week 1" />
     <MESSAGE value="Added moving pipes and a moving floor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added moving pipes and a moving floor" />
+    <MESSAGE value="Done with gameplay" />
+    <option name="LAST_COMMIT_MESSAGE" value="Done with gameplay" />
   </component>
 </project>
