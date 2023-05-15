@@ -39,6 +39,7 @@ public class Display implements ActionListener {
         frame.setVisible(true);
         screen.setFocusable(true);
         screen.requestFocus();
+        frame.setResizable(false);
     }
 
     @Override
@@ -54,7 +55,8 @@ public class Display implements ActionListener {
             screen.requestFocus();
         }
         if (e.getActionCommand().equals("Settings")){
-            System.out.println("Settings");
+            Main.s.frame.setVisible(true);
+            this.frame.setVisible(false);
             settings.setSelected(false);
             screen.requestFocus();
         }
@@ -86,17 +88,17 @@ public class Display implements ActionListener {
             super.paintComponent(g);
             //draw background
             g.drawImage(background,-2,-4,this);
-            //draw bird
-            g.drawImage(Main.b.getSprite(),108-32, Main.b.getY(), this);
             //draw pipes
             for (int i = 0; i < 3; i++) {
                 Pipe p = Main.pipes[i];
                 g.drawImage(p.getSprite(), p.getDisplayX(), p.getTopOfLowerPipe(), this);
                 g.drawImage(p.getTopSprite(), p.getDisplayX(), p.getTopOfUpperPipe(), this);
             }
+            //draw bird
+            g.drawImage(Main.b.getSprite(),76, Main.b.getY(), this);
             //draw floor
             g.drawImage(floor, -floorOffset, 768-174, this);
-            floorOffset += speed;
+            if (Main.running){floorOffset += speed;}
             if (93-floorOffset < 0) {
                 floorOffset = 27;
                 //this resets the floor so to give it the infinite feel without choppiness
