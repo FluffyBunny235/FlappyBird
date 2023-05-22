@@ -72,7 +72,7 @@ public class Display implements ActionListener {
         }
         if (e.getActionCommand().equals("Learn")) {
             ArrayList<Bird> birds = new ArrayList<>(50);
-            for (int i = 0; i < 30; i++ ){
+            for (int i = 0; i < 50; i++ ){
                 Bird b;
                 try {
                     b = new Bird();

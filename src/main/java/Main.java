@@ -1,3 +1,6 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -23,6 +26,7 @@ public class Main {
         d = new Display();
         running = false;
         java.util.Timer t = new java.util.Timer();
+
         TimerTask t2 = new TimerTask() {
             @Override
             public void run() {
@@ -39,7 +43,7 @@ public class Main {
                         throw new RuntimeException(e);
                     }
                 }
-                System.out.print("\b\b" + amountAlive);
+                //System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" + "Birds Alive: " + amountAlive);
                 d.screen.repaint();
             }
         };
@@ -71,28 +75,39 @@ public class Main {
     public static Brain findBestBrain() {
         Brain best = b.get(0).getBrain();
         double score = Integer.MIN_VALUE;
+        double tieBreaker = Integer.MIN_VALUE;
         for (Bird bird : b) {
             if (bird.getBrain().getScore() > score) {
                 score = bird.getBrain().getScore();
                 best = bird.getBrain();
+                tieBreaker = bird.getBrain().getTieBreaker();
+            }
+            else if (bird.getBrain().getScore() == score && bird.getBrain().getTieBreaker()>tieBreaker) {
+                score = bird.getBrain().getScore();
+                best = bird.getBrain();
+                tieBreaker = bird.getBrain().getTieBreaker();
             }
         }
+        System.out.println(score + tieBreaker);
         return best;
     }
     public static void nextGeneration(Brain brain) throws IOException {
         b.clear();
-        Bird bi = new Bird();
-        bi.giveBrain(brain);
-        b.add(bi);
-        for (int i = 1; i < 25; i++) {
+        for (int i = 0; i < 44; i++) {
             Bird bird = new Bird();
             bird.giveBrain(brain.getMutation());
             b.add(bird);
         }
-        for (int i = 25; i < 30; i++) {
+        for (int i = 44; i < 49; i++) {
             Bird bird = new Bird();
             bird.giveBrain();
             b.add(bird);
         }
+        Bird bi = new Bird();
+        bi.giveBrain(brain);
+        Image s = ImageIO.read(new File("src/main/java/Previous Best Bird.png"));
+        s = s.getScaledInstance(64, 48, 0);
+        bi.setSprite(s);
+        b.add(bi);
     }
 }

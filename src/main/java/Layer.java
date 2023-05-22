@@ -39,6 +39,9 @@ public class Layer {
         }
     }
     public Layer copy() {
-        return new Layer(layerNum, parent, nodes);
+
+        Node[] n = new Node[nodes.length];
+        System.arraycopy(nodes, 0, n, 0, nodes.length);
+        return new Layer(layerNum, parent, n);
     }
 }
