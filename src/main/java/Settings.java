@@ -82,11 +82,13 @@ public class Settings implements ActionListener, ChangeListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Apply")) {
             Main.tv = terminalVelocity.getValue();
-            Main.b.setTerminalVelocity(terminalVelocity.getValue());
             Main.bonus = doubleJumpBonus.getValue();
-            Main.b.setDoubleJumpBonus(doubleJumpBonus.getValue());
             Main.acceleration = (double)(acceleration.getValue())/100;
-            Main.b.setAcceleration((double)(acceleration.getValue())/100);
+            for (int i = 0; i < Main.b.size(); i++) {
+                Main.b.get(i).setDoubleJumpBonus(doubleJumpBonus.getValue());
+                Main.b.get(i).setTerminalVelocity(terminalVelocity.getValue());
+                Main.b.get(i).setAcceleration((double) (acceleration.getValue()) / 100);
+            }
             frame.setVisible(false);
             Main.d.frame.setVisible(true);
         }

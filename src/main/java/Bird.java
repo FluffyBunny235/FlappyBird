@@ -5,6 +5,9 @@ import java.io.IOException;
 
 public class Bird {
     private double y;
+    private int pipesPassed = 0;
+    private int x;
+    private int totalFramesSurvived=0;
     private int framesSinceLastJump = 5;
     private Image deadSprite = ImageIO.read(new File("src/main/java/Dead Bird.png"));
     private Image sprite = ImageIO.read(new File("src/main/java/Bird.png"));
@@ -13,12 +16,25 @@ public class Bird {
     private double velocity;
     private double acceleration = 0.75;
     private int doubleJumpBonus = 5;
+    private Brain brain;
+    private boolean controlledByAI;
     public Bird() throws IOException {
+        x = 76;
+        controlledByAI = false;
         this.sprite = sprite.getScaledInstance(64, 48, 0);
         this.deadSprite = deadSprite.getScaledInstance(64, 48, 0);
         this.alive = true;
         this.y = 400;
         this.velocity = 0;
+    }
+    public void giveBrain() {
+        this.brain = new Brain(this);
+        controlledByAI = true;
+    }
+    public void giveBrain(Brain brain) {
+        this.brain = brain;
+        this.brain.setBody(this);
+        controlledByAI = true;
     }
     public boolean inPipe() {
         for (int i = 0; i < 3; i++) {
@@ -89,8 +105,18 @@ public class Bird {
     }
 
     public void act() {
+        if (!alive && controlledByAI && Main.running) {
+            x-=3;
+        }
         if (!Main.running && (alive || y==546)) {return;}
         framesSinceLastJump++;
+        totalFramesSurvived++;
+        if (controlledByAI) {
+            brain.update();
+            if (brain.computeWillJump()) {
+                this.jump();
+            }
+        }
         this.velocity += acceleration;
         if (velocity > terminalVelocity) {
             velocity = terminalVelocity;
@@ -103,7 +129,6 @@ public class Bird {
         }
         if (this.inPipe()) {this.die();}
         // moves the bird velocity distance.
-        Main.d.screen.repaint();
     }
     public void jump() {
         if (!alive) {return;}
@@ -118,7 +143,21 @@ public class Bird {
         return (int)this.y;
     }
     public void die() {
-        Main.running = false;
+        if (!alive) {return;}
+        if (!controlledByAI) {Main.running = false;}
+        if (controlledByAI) {
+            Pipe p1 = Main.pipes[0];
+            for (int i = 1; i < 3; i++) {
+                if (Main.pipes[i].getDisplayX()<p1.getDisplayX()) {
+                    p1 = Main.pipes[i];
+                }
+            }
+            int x = 0;
+            if (y < 0) {
+                x = -10000;
+            }
+            this.brain.setScore(x + 200*pipesPassed + totalFramesSurvived + 768.0/(Math.abs((int)(y-p1.getTopOfLowerPipe()-99))));
+        }
         this.alive = false;
         this.velocity = terminalVelocity;
     }
@@ -138,12 +177,19 @@ public class Bird {
     public boolean isAlive() {
         return alive;
     }
+    public double getVelocity() {
+        return this.velocity;
+    }
+    public int getFramesSinceJumped() {
+        return this.framesSinceLastJump;
+    }
+    public int getX() {
+        return x;
+    }
+    public Brain getBrain() {
+        return this.brain;
+    }
+    public void addPipesPassed() {
+        this.pipesPassed++;
+    }
 }
-/*
-Inputs for AI:
-- y pos of bird
-- bird velocity
-- leftX of next 2 pipes
-- topY of bottom next 2 pipes
-- frames since last jump
- */

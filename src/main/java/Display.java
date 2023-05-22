@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Display implements ActionListener {
     Screen screen;
@@ -11,6 +12,7 @@ public class Display implements ActionListener {
     JPanel panel;
     JButton playAgain;
     JButton settings;
+    JButton learn;
     JLabel highScore;
 
     public Display() throws IOException {
@@ -30,7 +32,12 @@ public class Display implements ActionListener {
         settings.setSelected(false);
         panel.add(settings);
 
-        highScore = new JLabel("Session High Score: " + Main.highScore);
+        learn = new JButton("Learn");
+        learn.addActionListener(this);
+        learn.setSelected(false);
+        panel.add(learn);
+
+        highScore = new JLabel("Session High: " + Main.highScore);
         panel.add(highScore);
 
         screen = new Screen();
@@ -46,7 +53,9 @@ public class Display implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Play Again")) {
-            Main.b.die();
+            for (Bird bird : Main.b) {
+                bird.die();
+            }
             try {
                 Main.reset();
             } catch (IOException ex) {
@@ -58,6 +67,28 @@ public class Display implements ActionListener {
         if (e.getActionCommand().equals("Settings")){
             Main.s.frame.setVisible(true);
             this.frame.setVisible(false);
+            settings.setSelected(false);
+            screen.requestFocus();
+        }
+        if (e.getActionCommand().equals("Learn")) {
+            ArrayList<Bird> birds = new ArrayList<>(50);
+            for (int i = 0; i < 30; i++ ){
+                Bird b;
+                try {
+                    b = new Bird();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                b.giveBrain();
+                birds.add(b);
+            }
+            Main.b = birds;
+            try {
+                Main.resetAllButBirds();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            Main.running = true;
             settings.setSelected(false);
             screen.requestFocus();
         }
@@ -103,7 +134,9 @@ public class Display implements ActionListener {
                 g.drawImage(p.getTopSprite(), p.getDisplayX(), p.getTopOfUpperPipe(), this);
             }
             //draw bird
-            g.drawImage(Main.b.getSprite(),76, Main.b.getY(), this);
+            ArrayList<Bird> copy;
+            copy = (ArrayList<Bird>) Main.b.clone();
+            for (Bird bird : copy){g.drawImage(bird.getSprite(), bird.getX(), bird.getY(), this);}
             //draw floor
             g.drawImage(floor, -floorOffset, 768-174, this);
             if (Main.running){floorOffset += speed;}
@@ -125,7 +158,7 @@ public class Display implements ActionListener {
         }
         @Override
         public void mouseClicked(MouseEvent e) {
-            Main.b.jump();
+            if (Main.b.size() <= 2){Main.b.get(0).jump();}
         }
 
         @Override
@@ -154,8 +187,8 @@ public class Display implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
-                Main.b.jump();
+            if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) && Main.b.size() <= 2) {
+                Main.b.get(0).jump();
             }
         }
 

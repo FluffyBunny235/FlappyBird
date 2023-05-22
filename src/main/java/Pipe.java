@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Pipe {
     private boolean countedScore;
@@ -24,18 +25,22 @@ public class Pipe {
     }
     public void checkScore() {
         if (countedScore) {return;}
-        if (Main.b.getY() > this.getTopOfUpperPipe()+600 && Main.b.getY()+48 < this.getTopOfLowerPipe()) {
-            if ((76>this.getDisplayX() && 76< this.getDisplayX()+60) || (140>this.getDisplayX() && 140 < this.getDisplayX()+60)) {
-                Main.currentScore++;
-                countedScore = true;
-                if (Main.currentScore > Main.highScore) {
-                    Main.highScore = Main.currentScore;
-                    Main.d.highScore.setText("Session High Score: " + Main.highScore);
+        if (this.getDisplayX() < 138) {
+            ArrayList<Bird> copy = (ArrayList<Bird>) Main.b.clone();
+            for (Bird bird : copy) {
+                if (bird.isAlive()) {
+                    bird.addPipesPassed();
                 }
+            }
+            Main.currentScore++;
+            countedScore = true;
+            if (Main.currentScore > Main.highScore) {
+                Main.highScore = Main.currentScore;
+                Main.d.highScore.setText("Session High: " + Main.highScore);
             }
         }
     }
-    public void act() {
+    public void act() throws IOException {
         if (!Main.running) {
             return;
         }
@@ -54,8 +59,24 @@ public class Pipe {
             this.topEdgeY = bottomEdgeY-150;
             countedScore = false;
         }
-        if (Main.b.isAlive()) {
+        boolean oneIsAlive = false;
+        for (Bird bir : Main.b) {
+            if (bir.isAlive()) {
+                oneIsAlive = true;
+            }
+        }
+        if (oneIsAlive) {
             checkScore();
+        }
+        else {
+            if (Main.b.size() > 1){
+                Main.nextGeneration(Main.findBestBrain());
+                Main.resetAllButBirds();
+                Main.running = true;
+            }
+            else {
+                Main.running = false;
+            }
         }
     }
     public int getDisplayX() {
