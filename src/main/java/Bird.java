@@ -121,6 +121,9 @@ public class Bird {
         if (velocity > terminalVelocity) {
             velocity = terminalVelocity;
         }
+        if (controlledByAI && 546-y <= velocity) {
+            this.jump();
+        }
         // this sets the angle of the bird relative to the velocity
         y += velocity;
         if (y >= 546) {

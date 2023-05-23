@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 public class Main {
     public static double acceleration = 0.75;
+    public static ArrayList<Double> probabilityOfPassing = new ArrayList<>(1);
     public static int tv = 30;
     public static int bonus = 5;
     public static int highScore = 0;
@@ -31,10 +32,10 @@ public class Main {
             @Override
             public void run() {
                 ArrayList<Bird> copy = (ArrayList<Bird>) b.clone();
-                int amountAlive= 0;
+                //int amountAlive= 0;
                 for (Bird bird : copy) {
                     bird.act();
-                    if (bird.isAlive()) {amountAlive++;}
+                    //if (bird.isAlive()) {amountAlive++;}
                 }
                 for (int i =0; i < 3; i++) {
                     try {
@@ -48,7 +49,7 @@ public class Main {
             }
         };
         long delay = 5;
-        t.scheduleAtFixedRate(t2, delay, 30);
+        t.scheduleAtFixedRate(t2, delay, 3);
     }
     public static void reset() throws IOException {
         ArrayList<Bird> birds = new ArrayList<>(1);
@@ -74,9 +75,13 @@ public class Main {
     }
     public static Brain findBestBrain() {
         Brain best = b.get(0).getBrain();
+        int birdsPassedPipe = 0;
         double score = Integer.MIN_VALUE;
         double tieBreaker = Integer.MIN_VALUE;
         for (Bird bird : b) {
+            if (bird.getBrain().getScore() > 200) {
+                birdsPassedPipe++;
+            }
             if (bird.getBrain().getScore() > score) {
                 score = bird.getBrain().getScore();
                 best = bird.getBrain();
@@ -88,7 +93,15 @@ public class Main {
                 tieBreaker = bird.getBrain().getTieBreaker();
             }
         }
-        System.out.println(score + tieBreaker);
+        probabilityOfPassing.add(((double)birdsPassedPipe)/50);
+        double total = 0;
+        for (double i : probabilityOfPassing) {
+            total+=i;
+        }
+        System.out.println("Trials Run: " + probabilityOfPassing.size());
+        System.out.println("Current Probability: " + (2*birdsPassedPipe) + "%");
+        System.out.println("Average Probability: " + (100*total/probabilityOfPassing.size()) + "%");
+        System.out.println();
         return best;
     }
     public static void nextGeneration(Brain brain) throws IOException {

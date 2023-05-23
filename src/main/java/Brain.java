@@ -12,7 +12,7 @@ Inputs for AI:
     private final int numLayers = 10;
     private double score;
     private double mutabilityNewLayer = 0.005;
-    private double mutabilityNewNode = 0.2;
+    private double mutabilityNewNode = 0.1;
     private final int nodesPerLayer = 20;
     private Bird body;
     private double tieBreaker;
