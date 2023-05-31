@@ -20,7 +20,8 @@ public class Pipe {
         this.pipe = ImageIO.read(new File("src/main/java/Pipe.png"));
         this.leftX = leftX;
         this.rightX = leftX+60;
-        this.bottomEdgeY = 558-(int)(Math.random()*300);
+        //this.bottomEdgeY = 558-(int)(Math.random()*300);
+        this.bottomEdgeY = 300;
         this.topEdgeY = bottomEdgeY-150;
     }
     public void checkScore() {

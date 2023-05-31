@@ -12,7 +12,7 @@ Inputs for AI:
     private final int numLayers = 10;
     private double score;
     private double mutabilityNewLayer = 0.005;
-    private double mutabilityNewNode = 0.1;
+    private double mutabilityNewNode = 0;
     private final int nodesPerLayer = 20;
     private Bird body;
     private double tieBreaker;
@@ -44,24 +44,21 @@ Inputs for AI:
         layers[0].getNode(0).setValue(Math.tanh(body.getY()));
         layers[0].getNode(1).setValue(Math.tanh(body.getVelocity()));
         Pipe p1 = Main.pipes[0];
-        int indexOfP1 = 0;
         for (int i = 1; i < 3; i++) {
-            if (Main.pipes[i].getDisplayX()<p1.getDisplayX()) {
+            if ((Main.pipes[i].getDisplayX()<p1.getDisplayX() && Main.pipes[i].getDisplayX()>16) || p1.getDisplayX()<=16) {
                 p1 = Main.pipes[i];
-                indexOfP1 = i;
             }
         }
-        Pipe p2 = Main.pipes[(indexOfP1+1)%3];
+        Pipe p2 = Main.pipes[0];
         for (int i = 0; i < 3; i++) {
-            if (i == indexOfP1) {continue;}
-            if (Main.pipes[i].getDisplayX() < p2.getDisplayX()) {
+            if ((Main.pipes[i].getDisplayX() < p2.getDisplayX() && Main.pipes[i].getDisplayX() > p1.getDisplayX()) || p2.getDisplayX() == p1.getDisplayX()) {
                 p2 = Main.pipes[i];
             }
         }
         layers[0].getNode(2).setValue(Math.tanh(p1.getDisplayX()));
-        layers[0].getNode(3).setValue(Math.tanh(p2.getDisplayX()));
+        layers[0].getNode(3).setValue(Math.tanh(p2.getDisplayX())/2);
         layers[0].getNode(4).setValue(Math.tanh(p1.getTopOfLowerPipe()));
-        layers[0].getNode(5).setValue(Math.tanh(p2.getTopOfLowerPipe()));
+        layers[0].getNode(5).setValue(Math.tanh(p2.getTopOfLowerPipe())/2);
         layers[0].getNode(6).setValue(Math.tanh(body.getFramesSinceJumped()));
         for (int i=1; i < numLayers; i++) {
             layers[i].updateNodes();
@@ -78,6 +75,8 @@ Inputs for AI:
         return this.tieBreaker;
     }
     public Brain getMutation() {
+        mutabilityNewNode = 10/score;
+        //mutabilityNewNode = 1;
         Brain b = new Brain(null);
         for (int i = 0; i < numLayers; i++) {
             b.setLayer(i, layers[i].copy());

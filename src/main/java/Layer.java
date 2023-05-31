@@ -39,9 +39,23 @@ public class Layer {
         }
     }
     public Layer copy() {
-
-        Node[] n = new Node[nodes.length];
-        System.arraycopy(nodes, 0, n, 0, nodes.length);
-        return new Layer(layerNum, parent, n);
+        Layer l = new Layer(layerNum, parent, new Node[nodes.length]);
+        for (int i = 0;i < nodes.length; i++) {
+            double[] weights;
+            if (nodes[i].getWeights() == null) {
+                if (i!=nodes.length-1) {
+                    System.out.println("ALARM");
+                }
+                weights = null;
+            }
+            else {
+                weights = new double[nodes[i].getWeights().length];
+                System.arraycopy(nodes[i].getWeights(), 0, weights, 0, weights.length);
+            }
+            double x = nodes[i].getBias();
+            Node node = new Node(l, i, weights, x);
+            l.setNode(node, i);
+        }
+        return l;
     }
 }

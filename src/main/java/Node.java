@@ -8,6 +8,7 @@ public class Node {
         this.parent = parent;
         this.index = index;
         this.value = 0;
+        this.bias = Math.random()*2-1;
     }
     public void initializeWeightsAndBiases() {
         if (parent.getLayerNum() != parent.getBrain().getNumLayers()-1) {
@@ -16,15 +17,13 @@ public class Node {
                 weights[i] = Math.random()*2-1;
             }
         }
-        bias = Math.random()*2-1;
     }
     public Node(Layer parent, int index, double[] weights, double bias)  {
         this.parent = parent;
         this.index= index;
         this.value = 0;
-        this.weights = new double[weights.length];
+        this.weights = weights;
         this.bias = bias;
-        System.arraycopy(weights, 0, this.weights, 0, this.weights.length);
     }
     public void updateValue() {
         double x = 0;

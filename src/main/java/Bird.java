@@ -8,7 +8,7 @@ public class Bird {
     private int pipesPassed = 0;
     private int x;
     private int framesSinceLastJump = 5;
-    private int framesSurvived = 0;
+    private double aiScore;
     private Image deadSprite = ImageIO.read(new File("src/main/java/Dead Bird.png"));
     private Image sprite = ImageIO.read(new File("src/main/java/Bird.png"));
     private boolean alive;
@@ -109,19 +109,27 @@ public class Bird {
             x-=3;
         }
         if (!Main.running && (alive || y==546)) {return;}
+        Pipe p1 = Main.pipes[0];
+        for (int i = 1; i < 3; i++) {
+            if ((Main.pipes[i].getDisplayX()<p1.getDisplayX() && Main.pipes[i].getDisplayX()+60>=x) || p1.getDisplayX()+60<x) {
+                p1 = Main.pipes[i];
+            }
+        }
         framesSinceLastJump++;
-        framesSurvived++;
         if (controlledByAI) {
-            brain.update();
-            if (brain.computeWillJump()) {
+            this.brain.update();
+            if (this.brain.computeWillJump()) {
                 this.jump();
+            }
+            if (y > p1.getTopOfUpperPipe()+600 && y+48 < p1.getTopOfLowerPipe()) {
+                aiScore+= 1.0/((Math.abs(x+64-p1.getDisplayX())+0.00001)/10);
             }
         }
         this.velocity += acceleration;
         if (velocity > terminalVelocity) {
             velocity = terminalVelocity;
         }
-        if (controlledByAI && 546-y <= velocity) {
+        if (controlledByAI && (546-y <= velocity)) {
             this.jump();
         }
         // this sets the angle of the bird relative to the velocity
@@ -151,12 +159,12 @@ public class Bird {
         if (controlledByAI) {
             Pipe p1 = Main.pipes[0];
             for (int i = 1; i < 3; i++) {
-                if (Main.pipes[i].getDisplayX()<p1.getDisplayX() || p1.getDisplayX()<x) {
+                if ((Main.pipes[i].getDisplayX()<p1.getDisplayX() && Main.pipes[i].getDisplayX()+60>x) || p1.getDisplayX()+60<x) {
                     p1 = Main.pipes[i];
                 }
             }
-            double diffInY = Math.abs((int)(y-p1.getTopOfLowerPipe()));
-            this.brain.setScore(200*pipesPassed + 2*framesSurvived, 20/diffInY);
+            double diffInY = Math.abs((int)(y-(p1.getTopOfLowerPipe()-75)));
+            this.brain.setScore(200*pipesPassed + 2*aiScore, 20/diffInY);
         }
         this.alive = false;
         this.velocity = terminalVelocity;

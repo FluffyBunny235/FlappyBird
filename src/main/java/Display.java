@@ -32,7 +32,7 @@ public class Display implements ActionListener {
         settings.setSelected(false);
         panel.add(settings);
 
-        learn = new JButton("Learn");
+        learn = new JButton("AI");
         learn.addActionListener(this);
         learn.setSelected(false);
         panel.add(learn);
@@ -70,7 +70,7 @@ public class Display implements ActionListener {
             settings.setSelected(false);
             screen.requestFocus();
         }
-        if (e.getActionCommand().equals("Learn")) {
+        if (e.getActionCommand().equals("AI")) {
             ArrayList<Bird> birds = new ArrayList<>(50);
             for (int i = 0; i < 50; i++ ){
                 Bird b;
